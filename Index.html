@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Untitled Page</title>
+    <script src="jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript">
+
+        function DeleteFeature() {
+            alert("in the function");
+
+            var gisviewerResult = {
+                objectId: "6721",
+                featureService: "http://gis.bemcorp.net:6080/arcgis/rest/services/NJDOT_Atlas_Development_Features/FeatureServer/0"
+            };
+
+            if (gisviewerResult.objectId) {
+                var url = "http://gis.bemcorp.net:6080/arcgis/rest/services/NJDOT_Atlas_Development_Features/FeatureServer/0/deleteFeatures"; //gisviewerResult.featureService + "/deleteFeatures";
+                var postData = {
+                    objectIds: "6721",
+                    rollbackOnFailure: true,
+                    f: "json"
+                };
+
+
+                //var pp = "[objectIds: " + gisviewerResult.objectId.toString() + ", rollbackOnFailure: true, f: json]";
+
+
+                //alert(url); alert(postData.objectIds);
+
+                $.support.cors = true;
+                var error = "";
+                var today = new Date();
+                // Show the processing label
+                //ShowProcessingAndDisable();  // Comes from the collect input file
+
+                //var postDataJSONString = JSON.stringify(postData);
+
+                //        $.post(url, postData)
+                //    .done(function (data, textStatus, jqXHR) {
+                //        alert("The feature is successfully deleted for this Inventory");
+                //        document.getElementById("ELL_gis_feature_status").value = "false";
+                //        document.getElementById("ELL_gis_feature_message").value = "Deleted polygon on " + today.toString(); ;
+                //        //document.getElementById("ELL_gis_object_id").value = ""; // Decided to leave the object id in for troubleshooting errors
+                //        document.getElementById("ELL_gis_feature_service").value = "";
+
+                //        // Call the update function in PAECETrak
+                //        UpdateGISFeature_Script();
+                //    })
+                //    .fail(function (jqXHR, textStatus, errorThrown) {
+                //        alert("The feature could not be deleted for this Inventory. Please contact your administrator.");
+                //        //alert(errorThrown);
+                //        error = errorThrown;
+                //        // Hide the processing label
+                //        UndoShowProcessingAndDisable();
+                //    });
+
+                $.ajax({
+                    type: "POST",
+                    url: gisviewerResult.featureService + "/deleteFeatures",
+                    data: postData,
+                    crossDomain: true,
+                    xhrFields: {
+                        withCredentials: false
+                    },
+                    error: function (error) {
+                        alert("Error!"); console.log(error);
+                        alert("The feature could not be deleted for this Inventory. Please contact your administrator.");
+                        // Hide the processing label
+                        //UndoShowProcessingAndDisable();
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        alert("The feature is successfully deleted for this Inventory");
+                        //document.getElementById("ELL_gis_feature_status").value = "false";
+                        //document.getElementById("ELL_gis_feature_message").value = "Deleted polygon on " + today.toString(); ;
+                        //document.getElementById("ELL_gis_object_id").value = ""; // Decided to leave the object id in for troubleshooting errors
+                        //document.getElementById("ELL_gis_feature_service").value = "";
+
+                        // Call the update function in PAECETrak
+                        //UpdateGISFeature_Script();
+                    }
+                });
+
+            }
+        }
+        function Button1_onclick() {
+            DeleteFeature();
+            return false;
+        }
+
+    </script>
+
+    <!-- TDOT Setup tested on IE and Google-->
+    <!--<script type="text/javascript">
+
+        function DeleteFeature() {
+            alert("in the function");
+
+            var gisviewerResult = {
+                objectId: "6721",
+                featureService: "https://tspatial.tdot.tn.gov/arcgisprivate/rest/services/IRIS/LAND_REQUESTS/FeatureServer/0"
+            };
+
+            if (gisviewerResult.objectId) {
+                var url = "https://tspatial.tdot.tn.gov/arcgisprivate/rest/services/IRIS/LAND_REQUESTS/FeatureServer/0/deleteFeatures"; //gisviewerResult.featureService + "/deleteFeatures";
+                var postData = {
+                    objectIds: "6721",
+                    rollbackOnFailure: true,
+                    f: "json"
+                };
+
+
+                //var pp = "[objectIds: " + gisviewerResult.objectId.toString() + ", rollbackOnFailure: true, f: json]";
+
+
+                //alert(url); alert(postData.objectIds);
+
+                $.support.cors = true;
+                var error = "";
+                var today = new Date();
+                // Show the processing label
+                ShowProcessingAndDisable();  // Comes from the collect input file
+
+                //var postDataJSONString = JSON.stringify(postData);
+
+                //        $.post(url, postData)
+                //    .done(function (data, textStatus, jqXHR) {
+                //        alert("The feature is successfully deleted for this Inventory");
+                //        document.getElementById("ELL_gis_feature_status").value = "false";
+                //        document.getElementById("ELL_gis_feature_message").value = "Deleted polygon on " + today.toString(); ;
+                //        //document.getElementById("ELL_gis_object_id").value = ""; // Decided to leave the object id in for troubleshooting errors
+                //        document.getElementById("ELL_gis_feature_service").value = "";
+
+                //        // Call the update function in PAECETrak
+                //        UpdateGISFeature_Script();
+                //    })
+                //    .fail(function (jqXHR, textStatus, errorThrown) {
+                //        alert("The feature could not be deleted for this Inventory. Please contact your administrator.");
+                //        //alert(errorThrown);
+                //        error = errorThrown;
+                //        // Hide the processing label
+                //        UndoShowProcessingAndDisable();
+                //    });
+
+                $.ajax({
+                    type: "POST",
+                    url: gisviewerResult.featureService + "/deleteFeatures",
+                    data: postData,
+                    crossDomain: true,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    error: function (error) {
+                        alert("Error!"); console.log(error);
+                        alert("The feature could not be deleted for this Inventory. Please contact your administrator.");
+                        // Hide the processing label
+                        //UndoShowProcessingAndDisable();
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        alert("The feature is successfully deleted for this Inventory");
+                        //document.getElementById("ELL_gis_feature_status").value = "false";
+                        //document.getElementById("ELL_gis_feature_message").value = "Deleted polygon on " + today.toString(); ;
+                        //document.getElementById("ELL_gis_object_id").value = ""; // Decided to leave the object id in for troubleshooting errors
+                        //document.getElementById("ELL_gis_feature_service").value = "";
+
+                        // Call the update function in PAECETrak
+                        //UpdateGISFeature_Script();
+                    }
+                });
+
+            }
+        }
+        function Button1_onclick() {
+            DeleteFeature();
+            return false;
+        }
+
+    </script>-->
+</head>
+<body>
+    <p>
+        <input id="Button1" type="button" value="button" onclick="return Button1_onclick()" /></p>
+</body>
+</html>
