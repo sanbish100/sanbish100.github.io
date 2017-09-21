@@ -196,12 +196,13 @@ function makeCorsRequest() {
 }	
 		function XMLHttpRequest_Call()
 		{
-		var xhr = new XMLHttpRequest();
+		<!-- var xhr = new XMLHttpRequest();
 		xhr.open("GET", url, true);
 		xhr.onload = function () {
 			console.log(xhr.responseText);
 		};
-		xhr.send();
+		xhr.send(); -->
+		makeCorsRequest();
 		return false;
 		}
 
