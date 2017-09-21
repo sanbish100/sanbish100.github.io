@@ -5,100 +5,55 @@
     <script src="jquery-1.10.2.min.js"></script>
 
     <script type="text/javascript">
-var url = "http://html5rocks-cors.s3-website-us-east-1.amazonaws.com/index.html";
-    
-		// Create the XHR object.
-function createCORSRequest(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    // XDomainRequest for IE.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    // CORS not supported.
-    xhr = null;
-  }
-  return xhr;
-}
+        var url = "http://html5rocks-cors.s3-website-us-east-1.amazonaws.com/index.html";
+
+        // Create the XHR object.
+        function createCORSRequest(method, url) {
+            var xhr = new XMLHttpRequest();
+            if ("withCredentials" in xhr) {
+                // XHR for Chrome/Firefox/Opera/Safari.
+                xhr.open(method, url, true);
+            } else if (typeof XDomainRequest != "undefined") {
+                // XDomainRequest for IE.
+                xhr = new XDomainRequest();
+                xhr.open(method, url);
+            } else {
+                // CORS not supported.
+                xhr = null;
+            }
+            return xhr;
+        }
 
 
-function makeCorsRequest() {
+        function makeCorsRequest() {
 
-var url = 'http://gis.bemcorp.net:6080/arcgis/rest/services/NJDOT_Atlas_Development_Features/FeatureServer/0/deleteFeatures';
-var method = 'GET';
-var xhr = createCORSRequest(method, url);
+            var url = 'http://gis.bemcorp.net:6080/arcgis/rest/services/NJDOT_Atlas_Development_Features/FeatureServer/0/deleteFeatures';
+            var method = 'GET';
+            var xhr = createCORSRequest(method, url);
 
-xhr.onload = function() {
-  // Success code goes here.
-};
+            xhr.onload = function() {
+                // Success code goes here.
+            };
 
-xhr.onerror = function() {
-  // Error code goes here.
-};
+            xhr.onerror = function() {
+                // Error code goes here.
+            };
 
-xhr.send();	// Make the actual CORS request.
-}	
-		function XMLHttpRequest_Call()
-		{		
-		makeCorsRequest();
-		return false;
-		}
+            xhr.send();	// Make the actual CORS request.
+        }
 
-	
 
-    // Create the XHR object.
-    var xhr = new XMLHttpRequest();
-    if ("withCredentials" in xhr) {
-        // XHR for Chrome/Firefox/Opera/Safari.
-        xhr.open('get', url, true);
-    }else if(typeof XDomainRequest != "undefined") {
-        // XDomainRequest for IE.
-        xhr = new XDomainRequest();
-        xhr.open('get', url);
-    }else{
-        // CORS not supported.
-        xhr = null;
-    };
-
-    if (!xhr) {
-        return;
-    };
-
-    // Response handlers.
-    xhr.onload = function() {
-        //do what you want with the response. Remember to use xhr.responseText for ie8 compatibility, because it doesn't have .responseXML
-        if(xhr.responseXML) {
-            xml = this.responseXML;
-        }else if(xhr.responseText){
-            xml = new ActiveXObject('Microsoft.XMLDOM');
-            xml.loadXML(xhr.responseText);
-        };
-    };
-
-    xhr.onerror = function() {
-        //do what you want on error
-    };
-
-    //these blank handlers need to be set to fix ie9 http://cypressnorth.com/programming/internet-explorer-aborting-ajax-requests-fixed/
-    xhr.onprogress = function () { };
-    xhr.ontimeout = function () { };
-
-    //do it, wrapped in timeout to fix ie9
-    setTimeout(function () {
-                xhr.send();
-            }, 0);
-
-};
-		
+        function XMLHttpRequest_Call()
+        {
+            makeCorsRequest();
+            return false;
+        }
     </script>
 
-    
+
 </head>
 <body>
 
-	<p> <input id="Button3" type="button" value="XMLHttpRequest Call" onclick="return XMLHttpRequest_Call()" /></p>
+    <p> <input id="Button3" type="button" value="XMLHttpRequest Call" onclick="return XMLHttpRequest_Call()" /></p>
 </body>
 </html>
