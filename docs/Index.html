@@ -196,10 +196,57 @@ function makeCorsRequest() {
 }	
 		function XMLHttpRequest_Call()
 		{		
-		makeCorsRequest();
+		//makeCorsRequest();
+		doRequest(url);
 		return false;
 		}
 
+		function doRequest(url) {
+
+    // Create the XHR object.
+    var xhr = new XMLHttpRequest();
+    if ("withCredentials" in xhr) {
+        // XHR for Chrome/Firefox/Opera/Safari.
+        xhr.open('get', url, true);
+    }else if(typeof XDomainRequest != "undefined") {
+        // XDomainRequest for IE.
+        xhr = new XDomainRequest();
+        xhr.open('get', url);
+    }else{
+        // CORS not supported.
+        xhr = null;
+    };
+
+    if (!xhr) {
+        return;
+    };
+
+    // Response handlers.
+    xhr.onload = function() {
+        //do what you want with the response. Remember to use xhr.responseText for ie8 compatibility, because it doesn't have .responseXML
+        if(xhr.responseXML) {
+            xml = this.responseXML;
+        }else if(xhr.responseText){
+            xml = new ActiveXObject('Microsoft.XMLDOM');
+            xml.loadXML(xhr.responseText);
+        };
+    };
+
+    xhr.onerror = function() {
+       alert('Woops, there was an error making the request.');
+    };
+
+    //these blank handlers need to be set to fix ie9 http://cypressnorth.com/programming/internet-explorer-aborting-ajax-requests-fixed/
+    xhr.onprogress = function () { };
+    xhr.ontimeout = function () { };
+
+    //do it, wrapped in timeout to fix ie9
+    setTimeout(function () {
+                xhr.send();
+            }, 0);
+
+};
+		
     </script>
 
     
