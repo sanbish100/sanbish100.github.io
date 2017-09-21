@@ -170,38 +170,45 @@ function createCORSRequest(method, url) {
   }
   return xhr;
 }
-	// Make the actual CORS request.
-function makeCorsRequest() {
-  // This is a sample server that supports CORS.
-  var url = 'http://html5rocks-cors.s3-website-us-east-1.amazonaws.com/index.html';
-
-  var xhr = createCORSRequest('GET', url);
-  if (!xhr) {
-    alert('CORS not supported');
-    return;
+var createCORSRequest = function(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // Most browsers.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // IE8 & IE9
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
   }
+  return xhr;
+};
 
-  // Response handlers.
-  xhr.onload = function() {
-    var text = xhr.responseText;
-    var title = getTitle(text);
-    alert('Response from CORS request to ' + url + ': ' + title);
-  };
+function makeCorsRequest() {
 
-  xhr.onerror = function() {
-    alert('Woops, there was an error making the request.');
-  };
+var url = 'http://gis.bemcorp.net:6080/arcgis/rest/services/NJDOT_Atlas_Development_Features/FeatureServer/0/deleteFeatures';
+var method = 'GET';
+var xhr = createCORSRequest(method, url);
 
-  xhr.send();
+xhr.onload = function() {
+  // Success code goes here.
+};
+
+xhr.onerror = function() {
+  // Error code goes here.
+};
+
+xhr.send();	// Make the actual CORS request.
 }	
 		function XMLHttpRequest_Call()
 		{		
-		//makeCorsRequest();
-		doRequest(url);
+		makeCorsRequest();
 		return false;
 		}
 
-		function doRequest(url) {
+	
 
     // Create the XHR object.
     var xhr = new XMLHttpRequest();
@@ -233,7 +240,7 @@ function makeCorsRequest() {
     };
 
     xhr.onerror = function() {
-       alert('Woops, there was an error making the request.');
+        //do what you want on error
     };
 
     //these blank handlers need to be set to fix ie9 http://cypressnorth.com/programming/internet-explorer-aborting-ajax-requests-fixed/
